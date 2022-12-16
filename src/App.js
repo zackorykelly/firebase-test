@@ -1,5 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
+
+// eslint-disable-next-line no-unused-vars
 import app from './FirebaseConfig';
 
 function App() {
