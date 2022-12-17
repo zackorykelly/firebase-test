@@ -1,16 +1,22 @@
 import logo from './logo.svg';
 import './App.css';
-
-// eslint-disable-next-line no-unused-vars
-import app from './FirebaseConfig';
+import FirebaseAuthService from './FirebaseAuthService';
+import { useState } from 'react';
+import LoginForm from './Components/LoginForm';
 
 function App() {
+  const [user, setUser] = useState(null);
+
+  FirebaseAuthService.subscribeToAuthChanges(setUser);
+
+
   return (
     <div className="App">
       <header className="App-header">
+        <LoginForm existingUser={user}/>
         <img src={logo} className="App-logo" alt="logo" />
         <p>
-          EditP <code>src/App.js</code> and save to reload.
+          Edit Edit <code>src/App.js</code> and save to reload.
         </p>
         <a
           className="App-link"
