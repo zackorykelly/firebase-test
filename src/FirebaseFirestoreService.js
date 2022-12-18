@@ -1,5 +1,5 @@
 import app from "./FirebaseConfig";
-import { getFirestore, collection, addDoc, getDocs, query, where, orderBy, limit, startAfter } from "firebase/firestore"
+import { getFirestore, collection, addDoc, getDocs, query, where, orderBy, limit, startAfter, updateDoc, doc, deleteDoc, getDoc } from "firebase/firestore"
 
 const firestore = getFirestore(app);
 
@@ -12,7 +12,7 @@ const createDocument = async (collectionName, document) => {
     }
 }
 
-const readDocument = async ({collectionName, queries}) => {
+const readDocuments = async ({collectionName, queries, orderByField, orderByDirection, perPage, cursorId}) => {
     const collectionRef = collection(firestore, collectionName);
     const queryConstraints = []
     if (queries && queries.length > 0) {
@@ -21,20 +21,16 @@ const readDocument = async ({collectionName, queries}) => {
         }
     }
 
-    const orderByDirection = ''
-    const orderByField = ''
     if (orderByField && orderByDirection) {
         queryConstraints.push(orderBy(orderByField, orderByDirection));;
     }
 
-    const perPage = ''
     if (perPage) {
         queryConstraints.push(limit(perPage));;
     }
 
-    const cursorId = ''
     if (cursorId) {
-        const document = await readDocument(collection, cursorId)
+        const document = await readDocument(collectionName, cursorId)
         queryConstraints.push(startAfter(document));
     }
 
@@ -45,12 +41,28 @@ const readDocument = async ({collectionName, queries}) => {
         return docs
     } catch (err) {
         alert(err.message);
+        throw err;
     }
+}
+
+const readDocument = (collectionName, cursorId) => {
+    return getDoc(doc(collection(firestore, collectionName), cursorId))
+}
+
+const updateDocument = (collectionName, id, document) => {
+    return updateDoc(doc(collection(firestore, collectionName), id), document)
+}
+
+const deleteDocument = (collectionName, id) => {
+    return deleteDoc(doc(collection(firestore, collectionName), id))
 }
 
 const FirebaseFirestoreService = {
     createDocument,
-    readDocument
+    readDocuments,
+    readDocument,
+    updateDocument,
+    deleteDocument,
 }
 
 export default FirebaseFirestoreService

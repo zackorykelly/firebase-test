@@ -1,12 +1,32 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
-function AddEditRecipeForm({ handleAddRecipe }) {
+function AddEditRecipeForm({ handleAddRecipe, handleEditRecipe, handleEditRecipeCancel, currentRecipe }) {
     const [name, setName] = useState("")
     const [category, setCategory] = useState("")
     const [publishDate, setPublishDate] = useState(new Date().toISOString().split("T")[0])
     const [directions, setDirections] = useState("")
     const [ingredients, setIngredients] = useState([])
     const [ingredientName, setIngredientName] = useState("")
+
+    useEffect(() => {
+        if (currentRecipe) {
+            setName(currentRecipe.name);
+            setCategory(currentRecipe.category);
+            setPublishDate(currentRecipe.publishDate.toISOString().split("T")[0]);
+            setDirections(currentRecipe.directions);
+            setIngredients(currentRecipe.ingredients);
+        } else {
+            resetForm();
+        }
+    },[currentRecipe])
+
+    const resetForm = () => {
+        setName("");
+        setCategory("");
+        setPublishDate("");
+        setDirections("");
+        setIngredients([]); 
+    }
 
     function handleAddIngredient(e) {
         if (e.key && e.key !== "Enter") {
@@ -41,12 +61,18 @@ function AddEditRecipeForm({ handleAddRecipe }) {
             ingredients,
         }
 
-        handleAddRecipe(newRecipe);
+        if (currentRecipe) {
+            handleEditRecipe(newRecipe, currentRecipe.id)
+        } else {
+            handleAddRecipe(newRecipe);
+        }
+
+        resetForm();
     }
 
     return (
     <form onSubmit={handleRecipeFormSubmit}>
-        <h2>Add a new recipe</h2>
+        <h2>{!currentRecipe ? "Add a new recipe" : "Edit A Recipe"}</h2>
         <div>
         <label>
             Recipe Name: 
@@ -109,7 +135,10 @@ function AddEditRecipeForm({ handleAddRecipe }) {
             </div>
         </div>
         <div>
-            <button type="submit">Create Recipe</button>
+            <button type="submit">{!currentRecipe ? "Create Recipe" : "Edit Recipe"}</button>
+            {currentRecipe ? (
+                <button type="button" onClick={handleEditRecipeCancel}>Cancel</button>
+            ) : null}
         </div>
     </form>
     )
