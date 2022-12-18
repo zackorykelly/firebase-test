@@ -19,6 +19,7 @@ function App() {
         alert(err.message);
         throw err;
       })
+  // eslint-disable-next-line
   },[user])
 
   FirebaseAuthService.subscribeToAuthChanges(setUser);
