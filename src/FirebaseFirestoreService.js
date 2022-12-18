@@ -21,22 +21,22 @@ const readDocument = async ({collectionName, queries}) => {
         }
     }
 
-    // const orderByDirection = ''
-    // const orderByField = ''
-    // if (orderByField && orderByDirection) {
-    //     queryConstraints.push(orderBy(orderByField, orderByDirection));;
-    // }
+    const orderByDirection = ''
+    const orderByField = ''
+    if (orderByField && orderByDirection) {
+        queryConstraints.push(orderBy(orderByField, orderByDirection));;
+    }
 
-    // const perPage = ''
-    // if (perPage) {
-    //     queryConstraints.push(limit(perPage));;
-    // }
+    const perPage = ''
+    if (perPage) {
+        queryConstraints.push(limit(perPage));;
+    }
 
-    // const cursorId = ''
-    // if (cursorId) {
-    //     const document = await readDocument(collection, cursorId)
-    //     queryConstraints.push(startAfter(document));
-    // }
+    const cursorId = ''
+    if (cursorId) {
+        const document = await readDocument(collection, cursorId)
+        queryConstraints.push(startAfter(document));
+    }
 
     try {
         console.log(collectionRef, queryConstraints)
