@@ -242,6 +242,7 @@ function App() {
                       <div>UNPUBLISHED</div>
                     ) : null}
                     <div>{recipe.name}</div>
+                    <img height={100} width={100} src={recipe.imageUrl} alt={recipe.imageUrl} />
                     <div>{formatCategory(recipe.category)}</div>
                     <div>{recipe.directions}</div>
                     <div>{formatTime(recipe.publishDate)}</div>

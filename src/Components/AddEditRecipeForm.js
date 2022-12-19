@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react"
+import ImageUploadPreview from "./ImageUploadPreview"
 
 function AddEditRecipeForm({ handleAddRecipe, handleEditRecipe, handleEditRecipeCancel, currentRecipe }) {
-    const [name, setName] = useState("")
-    const [category, setCategory] = useState("")
-    const [publishDate, setPublishDate] = useState(new Date().toISOString().split("T")[0])
-    const [directions, setDirections] = useState("")
-    const [ingredients, setIngredients] = useState([])
-    const [ingredientName, setIngredientName] = useState("")
+    const [name, setName] = useState("");
+    const [category, setCategory] = useState("");
+    const [publishDate, setPublishDate] = useState(new Date().toISOString().split("T")[0]);
+    const [directions, setDirections] = useState("");
+    const [ingredients, setIngredients] = useState([]);
+    const [ingredientName, setIngredientName] = useState("");
+    const [imageUrl, setImageUrl] = useState("");
 
     useEffect(() => {
         if (currentRecipe) {
@@ -15,6 +17,7 @@ function AddEditRecipeForm({ handleAddRecipe, handleEditRecipe, handleEditRecipe
             setPublishDate(currentRecipe.publishDate.toISOString().split("T")[0]);
             setDirections(currentRecipe.directions);
             setIngredients(currentRecipe.ingredients);
+            setImageUrl(currentRecipe.imageUrl);
         } else {
             resetForm();
         }
@@ -26,6 +29,7 @@ function AddEditRecipeForm({ handleAddRecipe, handleEditRecipe, handleEditRecipe
         setPublishDate("");
         setDirections("");
         setIngredients([]); 
+        setImageUrl("");
     }
 
     function handleAddIngredient(e) {
@@ -50,6 +54,11 @@ function AddEditRecipeForm({ handleAddRecipe, handleEditRecipe, handleEditRecipe
             return
         }
 
+        if (!imageUrl) {
+            alert("Add recipe image");
+            return
+        }
+
         const isPublished = new Date(publishDate) <= new Date() ? true : false
 
         const newRecipe = {
@@ -59,6 +68,7 @@ function AddEditRecipeForm({ handleAddRecipe, handleEditRecipe, handleEditRecipe
             publishDate: new Date(publishDate),
             isPublished,
             ingredients,
+            imageUrl,
         }
 
         if (currentRecipe) {
@@ -73,6 +83,15 @@ function AddEditRecipeForm({ handleAddRecipe, handleEditRecipe, handleEditRecipe
     return (
     <form onSubmit={handleRecipeFormSubmit}>
         <h2>{!currentRecipe ? "Add a new recipe" : "Edit A Recipe"}</h2>
+        <div>
+            Recipe Image
+            <ImageUploadPreview
+            basePath="recipes"
+            existingImageUrl={imageUrl}
+            handleUploadFinish={(downloadUrl) => setImageUrl(downloadUrl)}
+            handleUploadCancel={() => setImageUrl("")}
+            />
+        </div>
         <div>
         <label>
             Recipe Name: 
