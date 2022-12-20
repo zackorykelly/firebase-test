@@ -1,4 +1,4 @@
-import logo from './logo.svg';
+import logo from './result.svg';
 import './App.css';
 import FirebaseAuthService from './FirebaseAuthService';
 import FirebaseFirestoreService from './FirebaseFirestoreService';
@@ -198,7 +198,6 @@ function App() {
 
     return `${month}/${day}/${year}`
   }
-
 
   return (
     <div className="App">
