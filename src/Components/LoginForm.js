@@ -75,7 +75,7 @@ function LoginForm({ existingUser }) {
                 </label>
                 <button>Login</button>
                 <button type="button" onClick={handleSendResetPasswordEmail}>Reset Password</button>
-                <button type="button" onClick={handleLoginWithGoogle}>Login With Google</button>
+                {/* <button type="button" onClick={handleLoginWithGoogle}>Login With Google</button> */}
             </form>
         )}
         </div>
