@@ -37,13 +37,13 @@ function LoginForm({ existingUser }) {
         }
     }
 
-    async function handleLoginWithGoogle() {
-        try {
-            await FirebaseAuthService.loginWithGoogle();
-        } catch (err) {
-            alert(err.message)
-        }
-    }
+    // async function handleLoginWithGoogle() {
+    //     try {
+    //         await FirebaseAuthService.loginWithGoogle();
+    //     } catch (err) {
+    //         alert(err.message)
+    //     }
+    // }
 
 
     return (
